@@ -16,12 +16,27 @@ import { MapPin, Mail, ShieldCheck } from "lucide-react";
 import "animate.css";
 
 const AddFacilityPage = () => {
-  const onSubmit = (e) => {
+
+  const onSubmit = async(e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const facility = Object.fromEntries(formData.entries());
 
     console.log(facility);
+
+    const res= await fetch("http://localhost:5000/facility",{
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+
+        },
+
+        body:JSON.stringify(facility)
+    })
+
+    const data = await res.json()
+
+    console.log(data)
   };
 
   return (
