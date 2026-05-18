@@ -14,7 +14,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-50">
+    <nav className="w-full sticky top-0  z-50">
 
       {/* 🌫 GLASS BACKGROUND */}
       <div className="
