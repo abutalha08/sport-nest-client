@@ -5,7 +5,6 @@ import Link from "next/link";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Navigation Links array for clean code
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "All Facilities", href: "/all-facilities" },
@@ -15,56 +14,111 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="w-full bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20 items-center">
-          
-          {/* LOGO AREA */}
-          <div className="flex items-center gap-2 cursor-pointer">
-            <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-md shadow-teal-100">
-              <span className="text-white font-extrabold text-xl tracking-tight">SN</span>
+    <nav className="fixed top-0 w-full z-50">
+
+      {/* 🌫 GLASS BACKGROUND */}
+      <div className="
+        backdrop-blur-xl
+        bg-[#070B18]/70
+        border-b border-white/10
+        shadow-lg
+      ">
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-20 items-center">
+
+            {/* 🏷 LOGO */}
+            <div className="flex items-center gap-3 cursor-pointer">
+
+              <div className="
+                w-11 h-11
+                bg-gradient-to-br from-[#004BE8] to-[#1D4ED8]
+                rounded-xl
+                flex items-center justify-center
+                shadow-lg shadow-blue-900/30
+              ">
+                <span className="text-white font-bold text-lg">SN</span>
+              </div>
+
+              <span className="text-white font-bold text-2xl tracking-wide">
+                Sport<span className="text-[#60A5FA]">Nest</span>
+              </span>
             </div>
-            <span className="text-[#0D9488] font-bold text-2xl tracking-wide">
-              Sport<span className="text-[#06B6D4]">Nest</span>
-            </span>
-          </div>
 
-          {/* DESKTOP NAVIGATION LINKS */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link, index) => (
+            {/* 🧭 DESKTOP NAV */}
+            <div className="hidden lg:flex items-center gap-8">
+              {navLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.href}
+                  className="
+                    text-gray-300
+                    hover:text-white
+                    transition-colors duration-200
+                    font-medium
+                    relative
+                    after:content-['']
+                    after:absolute
+                    after:left-0
+                    after:-bottom-1
+                    after:h-[2px]
+                    after:w-0
+                    after:bg-[#004BE8]
+                    after:transition-all
+                    hover:after:w-full
+                  "
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+
+            {/* 🔐 AUTH BUTTONS */}
+            <div className="hidden lg:flex items-center gap-3">
+
               <Link
-                key={index}
-                href={link.href}
-                className="text-[#374151] hover:text-[#0D9488] font-medium text-[16px] transition-colors duration-200"
+                href="/login"
+                className="
+                  px-5 py-2.5
+                  text-gray-300
+                  hover:text-white
+                  font-medium
+                  transition
+                "
               >
-                {link.name}
+                Login
               </Link>
-            ))}
-          </div>
 
-          {/* AUTH BUTTONS (Login / Sign Up) */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link 
-              href="/login" 
-              className="px-5 py-2.5 text-[#374151] hover:text-[#0D9488] font-medium transition-colors duration-200"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="px-5 py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-medium rounded-xl hover:opacity-9 w-full shadow-sm hover:shadow-md transition-all duration-200"
-            >
-              Sign Up
-            </Link>
-          </div>
+              <Link
+                href="/signup"
+                className="
+                  px-5 py-2.5
+                  bg-[#004BE8]
+                  hover:bg-[#003ec4]
+                  text-white
+                  font-medium
+                  rounded-xl
+                  shadow-lg shadow-blue-900/30
+                  transition-all duration-300
+                  active:scale-95
+                "
+              >
+                Sign Up
+              </Link>
 
-          {/* MOBILE MENU BUTTON (Hamburger) */}
-          <div className="lg:hidden flex items-center">
+            </div>
+
+            {/* 📱 MOBILE BUTTON */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 hover:text-teal-600 focus:outline-none p-2"
+              className="lg:hidden text-white p-2"
             >
-              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-7 w-7"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 {isOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -72,40 +126,73 @@ export default function Navbar() {
                 )}
               </svg>
             </button>
-          </div>
 
+          </div>
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN MENU */}
+      {/* 📱 MOBILE MENU */}
       {isOpen && (
-        <div className="lg:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-6 space-y-3 shadow-lg absolute w-full left-0 transition-all duration-200 ease-in-out">
+        <div className="
+          lg:hidden
+          bg-[#070B18]/95
+          backdrop-blur-xl
+          border-b border-white/10
+          px-4 pt-4 pb-6
+          space-y-3
+        ">
+
           {navLinks.map((link, index) => (
             <Link
               key={index}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block text-[#374151] hover:text-[#0D9488] hover:bg-teal-50/50 px-3 py-2 rounded-lg font-medium text-base transition-colors"
+              className="
+                block
+                text-gray-300
+                hover:text-white
+                px-3 py-2
+                rounded-lg
+                hover:bg-white/5
+                transition
+              "
             >
               {link.name}
             </Link>
           ))}
-          <hr className="border-gray-100 my-2" />
-          <div className="flex flex-col gap-2 pt-2">
+
+          <div className="pt-4 flex flex-col gap-3">
+
             <Link
               href="/login"
               onClick={() => setIsOpen(false)}
-              className="w-full text-center py-2.5 text-[#374151] hover:text-[#0D9488] font-medium rounded-lg border border-gray-200"
+              className="
+                text-center py-2.5
+                text-gray-300
+                border border-white/10
+                rounded-xl
+                hover:text-white
+                hover:bg-white/5
+              "
             >
               Login
             </Link>
+
             <Link
               href="/signup"
               onClick={() => setIsOpen(false)}
-              className="w-full text-center py-2.5 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-medium rounded-lg shadow-sm"
+              className="
+                text-center py-2.5
+                bg-[#004BE8]
+                hover:bg-[#003ec4]
+                text-white
+                rounded-xl
+                shadow-lg shadow-blue-900/30
+              "
             >
               Sign Up
             </Link>
+
           </div>
         </div>
       )}

@@ -1,57 +1,93 @@
 "use client";
-
+import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import "animate.css";
 
-const Banner = () => {
+export default function Banner() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#009169] via-[#00a884] to-[#00bcd4] text-white py-20 px-4">
-      
-      {/* Background Blur */}
-      <div className="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+    <section className="relative w-full h-[550px] md:h-[620px] lg:h-[680px] flex items-center overflow-hidden bg-[#070B18]">
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          
-          {/* Left Content */}
-          <div>
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-              Book Your Favorite Sports Facility
-            </h1>
+      {/* 🌫 BACKGROUND IMAGE + BLUR LAYER */}
+      <div
+        className="absolute inset-0 scale-110 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1540379708242-14a809bef941')",
+        }}
+      >
+        {/* Soft blur layer */}
+        <div className="absolute inset-0 backdrop-blur-[2px]" />
 
-            <p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-              Discover and reserve premium sports venues for football,
-              badminton, tennis, swimming, and more. Play your game at the
-              best facilities in town.
-            </p>
+        {/* Dark + gradient overlay for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#070B18]/90 via-[#070B18]/60 to-transparent" />
+      </div>
 
+      {/* ✨ CONTENT WRAPPER */}
+      <div className="relative w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 z-10">
+
+        <div className="max-w-xl md:max-w-2xl text-left">
+
+          {/* 🏷 SMALL LABEL (optional premium touch) */}
+          <div className="mb-4 animate__animated animate__fadeInDown">
+            <span className="inline-flex items-center px-4 py-1 text-xs font-medium tracking-wide text-blue-200 bg-white/10 border border-white/15 rounded-full backdrop-blur-md">
+              Premium Sports Booking Platform
+            </span>
+          </div>
+
+          {/* 🧠 MAIN HEADING */}
+          <h1 className="text-white font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight tracking-tight mb-5 animate__animated animate__fadeInDown">
+            Book Your Favorite Sports Facility
+          </h1>
+
+          {/* 📝 SUBTITLE (improved readability) */}
+          <p className="text-gray-200/90 text-base sm:text-lg leading-relaxed max-w-lg mb-8 animate__animated animate__fadeInLeft animate__delay-1s">
+            Discover and book premium local sports facilities with ease. From professional
+            turfs to high-performance courts, your next session is just a click away at SportNest.
+          </p>
+
+          {/* 🎯 CTA BUTTONS */}
+          <div className="flex flex-wrap gap-4 items-center animate__animated animate__fadeInUp animate__delay-1s">
+
+            {/* PRIMARY BUTTON */}
             <Link
-              href="/facilities"
-              className="inline-flex items-center gap-2 bg-white text-[#009169] px-8 py-4 rounded-xl font-semibold shadow-xl hover:scale-105 transition-all duration-300"
+              href="/all-facilities"
+              className="
+                px-8 py-3
+                bg-[#004BE8] hover:bg-[#003ec4]
+                text-white font-semibold text-[15px]
+                rounded-xl
+                shadow-lg shadow-blue-900/30
+                transition-all duration-300
+                active:scale-95 hover:scale-105
+              "
             >
               Explore Facilities
-              <ArrowRight className="w-5 h-5" />
             </Link>
+
+            {/* SECONDARY GLASS BUTTON */}
+            <Link
+              href="/#how-it-works"
+              className="
+                px-8 py-3
+                bg-white/10 hover:bg-white/20
+                text-white font-semibold text-[15px]
+                rounded-xl
+                border border-white/20
+                backdrop-blur-xl
+                transition-all duration-300
+                active:scale-95 hover:scale-105
+              "
+            >
+              How it Works
+            </Link>
+
           </div>
 
-          {/* Right Image */}
-          <div className="hidden md:block">
-            <div className="bg-white/10 backdrop-blur-lg p-3 rounded-3xl border border-white/20 shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop"
-                alt="Sports Facility"
-                width={600}
-                height={400}
-                className="rounded-2xl object-cover w-full h-[400px]"
-              />
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* 🌟 subtle floating glow (premium touch) */}
+      <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]" />
     </section>
   );
-};
-
-export default Banner;
+}
