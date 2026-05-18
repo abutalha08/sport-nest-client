@@ -4,6 +4,7 @@ import { Button } from "@heroui/react";
 import { MapPin, Users, Clock } from "lucide-react";
 import Image from "next/image";
 import "animate.css";
+import Link from "next/link";
 
 export default function FacilityCard({ facility }) {
   return (
@@ -97,6 +98,8 @@ export default function FacilityCard({ facility }) {
         </div>
 
    
+        <Link href={`/all-facilities/${facility._id}`}>
+        
         <Button
           className="
             w-full h-[46px]
@@ -111,6 +114,7 @@ export default function FacilityCard({ facility }) {
         >
           Book Now
         </Button>
+        </Link>
 
       </div>
     </div>
