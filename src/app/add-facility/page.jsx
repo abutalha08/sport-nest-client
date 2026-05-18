@@ -14,6 +14,7 @@ import {
 import { MapPin, Mail, ShieldCheck } from "lucide-react";
 
 import "animate.css";
+import toast from "react-hot-toast";
 
 const AddFacilityPage = () => {
   const onSubmit = async (e) => {
@@ -37,7 +38,15 @@ const AddFacilityPage = () => {
 
     const data = await res.json();
 
-    console.log(data);
+     if (res.ok) {
+    toast.success("Facility created successfully!");
+  } else {
+    toast.error(data?.message || "Something went wrong.");
+  }
+
+    
+
+    // console.log(data);
   };
 
   return (
