@@ -20,7 +20,7 @@ const FacilityDetailsPage = async ({ params }) => {
 
   const facility = await res.json();
 
-  console.log(facility);
+//   console.log(facility);
 
   const {
     timeSlots,
