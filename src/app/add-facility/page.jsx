@@ -16,38 +16,37 @@ import { MapPin, Mail, ShieldCheck } from "lucide-react";
 import "animate.css";
 
 const AddFacilityPage = () => {
-
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const facility = Object.fromEntries(formData.entries());
+    const facility = {
+      ...Object.fromEntries(formData.entries()),
+      timeSlots: formData.getAll("timeSlots"),
+    };
 
     console.log(facility);
 
-    const res= await fetch("http://localhost:5000/facility",{
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
+    const res = await fetch("http://localhost:5000/facility", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
 
-        },
+      body: JSON.stringify(facility),
+    });
 
-        body:JSON.stringify(facility)
-    })
+    const data = await res.json();
 
-    const data = await res.json()
-
-    console.log(data)
+    console.log(data);
   };
 
   return (
     <div className="relative min-h-screen bg-[#F8FAFC] py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
-
       {/*  Background Glow Effects */}
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-[#004BE8]/10 blur-[120px] rounded-full" />
       <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-blue-300/20 blur-[120px] rounded-full" />
 
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-
         {/* Left sidebar  */}
         <div className="space-y-6 animate__animated animate__fadeInLeft">
           <div>
@@ -191,7 +190,10 @@ const AddFacilityPage = () => {
                         <ListBox.Item id="Cricket" textValue="Cricket Nets">
                           Cricket Nets
                         </ListBox.Item>
-                        <ListBox.Item id="Basketball" textValue="Basketball Court">
+                        <ListBox.Item
+                          id="Basketball"
+                          textValue="Basketball Court"
+                        >
                           Basketball Court
                         </ListBox.Item>
                         <ListBox.Item id="Swimming" textValue="Swimming Pool">
@@ -322,12 +324,14 @@ const AddFacilityPage = () => {
                 </TextField>
 
                 {/* Time Slots */}
+                {/* Available Time Slots */}
                 <div className="w-full">
                   <Select
                     name="timeSlots"
                     isRequired
                     placeholder="Select available slot"
                     className="w-full"
+                    selectionMode="multiple"
                   >
                     <Label className="text-[#0B2545] font-bold text-[11px] uppercase tracking-wider mb-2 block">
                       Available Time Slots
@@ -340,20 +344,32 @@ const AddFacilityPage = () => {
 
                     <Select.Popover>
                       <ListBox>
-                        <ListBox.Item id="Morning" textValue="Morning">
-                          Morning
+                        <ListBox.Item id="06:00-08:00" textValue="06:00-08:00">
+                          06:00 AM - 08:00 AM
                         </ListBox.Item>
 
-                        <ListBox.Item id="Afternoon" textValue="Afternoon">
-                          Afternoon
+                        <ListBox.Item id="08:00-10:00" textValue="08:00-10:00">
+                          08:00 AM - 10:00 AM
                         </ListBox.Item>
 
-                        <ListBox.Item id="Evening" textValue="Evening">
-                          Evening
+                        <ListBox.Item id="10:00-12:00" textValue="10:00-12:00">
+                          10:00 AM - 12:00 PM
                         </ListBox.Item>
 
-                        <ListBox.Item id="Night" textValue="Night">
-                          Night
+                        <ListBox.Item id="14:00-16:00" textValue="14:00-16:00">
+                          02:00 PM - 04:00 PM
+                        </ListBox.Item>
+
+                        <ListBox.Item id="16:00-18:00" textValue="16:00-18:00">
+                          04:00 PM - 06:00 PM
+                        </ListBox.Item>
+
+                        <ListBox.Item id="18:00-20:00" textValue="18:00-20:00">
+                          06:00 PM - 08:00 PM
+                        </ListBox.Item>
+
+                        <ListBox.Item id="20:00-22:00" textValue="20:00-22:00">
+                          08:00 PM - 10:00 PM
                         </ListBox.Item>
                       </ListBox>
                     </Select.Popover>
