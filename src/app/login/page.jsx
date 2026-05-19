@@ -19,7 +19,6 @@ import { ArrowRight } from "lucide-react";
 import "animate.css";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -37,18 +36,27 @@ const LoginPage = () => {
       password: user.password,
     });
 
-    if (data) {
-      toast.success("Login successful!");
-
-      setTimeout(() => {
-        router.push("/");
-      }, 800);
-    }
-
     if (error) {
-      toast.error(error.message || "Invalid email or password");
-    }
+  toast.error(error.message || "Invalid email or password");
+  return;
+}
+
+if (data) {
+  toast.success("Login successful!");
+
+  setTimeout(() => {
+    router.push("/");
+  }, 800);
+}
   };
+
+  const handleGoogleSignIn = async () => {
+    toast.loading("Redirecting to Google...");
+
+    await authClient.signIn.social({
+        provider: 'google'
+    });
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#F4F7FE] flex items-center justify-center px-4 py-10">
@@ -159,7 +167,7 @@ const LoginPage = () => {
         </div>
 
         {/* GOOGLE */}
-        <Button
+        <Button onClick={handleGoogleSignIn}
           variant="bordered"
           className="w-full h-[48px] bg-white/80 border border-[#DBEAFE] text-[#0B2545] font-semibold text-sm rounded-xl transition-all duration-300 hover:bg-white hover:border-[#004BE8]/30"
         >

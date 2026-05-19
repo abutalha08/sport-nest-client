@@ -60,7 +60,7 @@ if (data) {
 
   const handleGoogleSignUp = async() => {
 
-    toast.success("Redirecting to Google...");
+    toast.loading("Redirecting to Google...");
 
     await authClient.signIn.social({
         provider: "google"
