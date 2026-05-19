@@ -2,6 +2,7 @@ import React from "react";
 import { MapPin, DollarSign, Users, Clock } from "lucide-react";
 import Image from "next/image";
 import "animate.css";
+import BookingCard from "@/components/BookingCard";
 
 const FacilityDetailsPage = async ({ params }) => {
   const { id } = await params;
@@ -34,7 +35,8 @@ const FacilityDetailsPage = async ({ params }) => {
   } = facility;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 py-12">
+    <div>
+      <div className="bg-[#F8FAFC] flex items-center justify-center px-4 py-12">
 
       {/* MAIN CARD */}
       <div className="w-full max-w-7xl bg-white/60 backdrop-blur-xl border border-white/40 rounded-[24px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.06)] flex flex-col md:flex-row">
@@ -101,6 +103,10 @@ const FacilityDetailsPage = async ({ params }) => {
           </div>
         </div>
       </div>
+    </div>
+
+    <BookingCard facility={facility}></BookingCard>
+
     </div>
   );
 };
