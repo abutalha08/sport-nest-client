@@ -18,10 +18,13 @@ import {
 
 import "animate.css";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const RegisterPage = () => {
+
+  const router = useRouter();
 
     const onSubmit = async (e) => {
     e.preventDefault();
@@ -40,19 +43,30 @@ const RegisterPage = () => {
 
     // console.log({data, error});
 
-      if (data) {
-    toast.success("Account created successfully!");
+    if (error) {
+  toast.error(error.message || "Registration failed!");
+  return;
+}
 
-    setTimeout(() => {
-      redirect("/");
-    }, 800);
-  }
+if (data) {
+  toast.success("Account created successfully!");
 
-  if (error) {
-    toast.error(error.message || "Registration failed!");
-  }
+  setTimeout(() => {
+    router.push("/login");
+  }, 800);
+}
 
   };
+
+  const handleGoogleSignUp = async() => {
+
+    toast.success("Redirecting to Google...");
+
+    await authClient.signIn.social({
+        provider: "google"
+    })
+
+  }
 
 
   return (
@@ -355,7 +369,7 @@ const RegisterPage = () => {
           </div>
 
           {/* GOOGLE */}
-          <Button
+          <Button onClick={handleGoogleSignUp}
             variant="outline"
             className="
               w-full
@@ -382,25 +396,27 @@ const RegisterPage = () => {
           {/* BACK */}
           <div className="text-center mt-6">
 
-            <button
-              type="button"
-              className="
-                inline-flex items-center gap-1.5
+            <Link href="/login">
+  <button
+    type="button"
+    className="
+      inline-flex items-center gap-1.5
 
-                text-[#64748B]
-                hover:text-[#004BE8]
+      text-[#64748B]
+      hover:text-[#004BE8]
 
-                text-sm
-                font-semibold
+      text-sm
+      font-semibold
 
-                transition-colors
+      transition-colors
 
-                group
-              "
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-              Back to Login
-            </button>
+      group
+    "
+  >
+    <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+    Back to Login
+  </button>
+</Link>
 
           </div>
         </div>
