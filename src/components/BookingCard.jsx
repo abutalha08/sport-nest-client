@@ -14,9 +14,51 @@ import {
 } from "@heroui/react";
 
 import "animate.css";
+import { authClient } from "@/lib/auth-client";
 
 const BookingCard = ({ facility }) => {
-  const { price = 0, facilityName } = facility;
+
+    // console.log(facility)
+
+    const { price = 0, facilityName,imageUrl,location,_id } = facility;
+
+     const { data: session } = authClient.useSession();
+      const user = session?.user;
+    //   console.log(user)
+
+     const [bookingDate, setBookingDate] = useState(null);
+
+    //  console.log(new Date(bookingDate))
+
+    const handleBooking = async () => {
+         const bookingData = {
+        userId: user?.id,
+        userImage: user?.image,
+        userName: user?.name,
+        userEmail:user?.email,
+        facilityId: _id,
+        facilityName,
+        price: totalPrice,
+        imageUrl,
+        location,
+        bookingDate: new Date(bookingDate)
+    }
+    // console.log(bookingData)
+
+    const res = await fetch("http://localhost:5000/booking",{
+        method: "POST",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(bookingData)
+    })
+    const data = await res.json();
+    console.log(data);
+
+    }
+
+
+  
 
   const [hours, setHours] = useState(1);
 
@@ -71,7 +113,7 @@ const BookingCard = ({ facility }) => {
             </TextField>
 
             {/* Date */}
-            <DateField name="date" isRequired className="w-full">
+            <DateField onChange={setBookingDate} name="date" isRequired className="w-full">
               <Label className="text-[#0B2545] font-bold text-[12px] mb-1.5 block">
                 Booking Date
               </Label>
@@ -161,7 +203,8 @@ const BookingCard = ({ facility }) => {
           </div>
 
           <Button
-            type="submit"
+            
+            onClick={handleBooking}
             className="w-full h-[48px] bg-[#003EC4] hover:bg-[#0033A6] text-white font-bold rounded-xl"
           >
             Confirm Booking
