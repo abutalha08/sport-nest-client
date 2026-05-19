@@ -15,6 +15,7 @@ import {
 
 import "animate.css";
 import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 const BookingCard = ({ facility }) => {
 
@@ -53,7 +54,8 @@ const BookingCard = ({ facility }) => {
         body: JSON.stringify(bookingData)
     })
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
+    toast.success("Booking confirmed successfully!");
 
     }
 
@@ -106,7 +108,7 @@ const BookingCard = ({ facility }) => {
 
               <Input
                 value={facilityName}
-                isReadOnly
+                readOnly
                 className="w-full min-h-[44px] font-medium px-3.5 bg-white/80 border border-slate-200/80 rounded-xl"
               />
               <FieldError />
