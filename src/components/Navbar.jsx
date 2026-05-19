@@ -90,7 +90,7 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/signup"
+                href="/register"
                 className="
                   px-5 py-2.5
                   bg-[#004BE8]
@@ -103,7 +103,7 @@ export default function Navbar() {
                   active:scale-95
                 "
               >
-                Sign Up
+                Register
               </Link>
 
             </div>
@@ -179,7 +179,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/signup"
+              href="/register"
               onClick={() => setIsOpen(false)}
               className="
                 text-center py-2.5
@@ -190,7 +190,7 @@ export default function Navbar() {
                 shadow-lg shadow-blue-900/30
               "
             >
-              Sign Up
+              Register
             </Link>
 
           </div>
