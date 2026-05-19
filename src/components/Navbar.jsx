@@ -1,201 +1,217 @@
 "use client";
+
+import { Menu, LogOut } from "lucide-react";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "All Facilities", href: "/all-facilities" },
-    { name: "My Bookings", href: "/my-bookings" },
-    { name: "Add Facility", href: "/add-facility" },
-    { name: "Manage My Facilities", href: "/manage-facilities" },
-  ];
+  const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    setProfileDropdownOpen(false);
+  };
+
+  const navLinkClass = (path) =>
+    `text-sm font-medium transition px-1 py-1 border-b-2 ${
+      pathname === path
+        ? "text-[#004BE8] border-[#004BE8]"
+        : "text-gray-600 border-transparent hover:text-[#004BE8] hover:border-[#004BE8]"
+    }`;
+
+  const mobileLinkClass = (path) =>
+    `block py-2 text-sm font-medium transition ${
+      pathname === path
+        ? "text-[#004BE8]"
+        : "text-gray-700 hover:text-[#004BE8]"
+    }`;
 
   return (
-    <nav className="w-full sticky top-0  z-50">
-
-      {/* 🌫 GLASS BACKGROUND */}
-      <div className="
-        backdrop-blur-xl
-        bg-[#070B18]/70
-        border-b border-white/10
-        shadow-lg
-      ">
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center">
-
-            {/* 🏷 LOGO */}
-            <div className="flex items-center gap-3 cursor-pointer">
-
-              <div className="
-                w-11 h-11
-                bg-gradient-to-br from-[#004BE8] to-[#1D4ED8]
-                rounded-xl
-                flex items-center justify-center
-                shadow-lg shadow-blue-900/30
-              ">
-                <span className="text-white font-bold text-lg">SN</span>
-              </div>
-
-              <span className="text-white font-bold text-2xl tracking-wide">
-                Sport<span className="text-[#60A5FA]">Nest</span>
+    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          
+          {/* LOGO */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-11 h-11 bg-gradient-to-br from-[#004BE8] to-[#1D4ED8] rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/30">
+              <span className="text-white font-bold text-sm tracking-wide">
+                SN
               </span>
             </div>
 
-            {/* 🧭 DESKTOP NAV */}
-            <div className="hidden lg:flex items-center gap-8">
-              {navLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.href}
-                  className="
-                    text-gray-300
-                    hover:text-white
-                    transition-colors duration-200
-                    font-medium
-                    relative
-                    after:content-['']
-                    after:absolute
-                    after:left-0
-                    after:-bottom-1
-                    after:h-[2px]
-                    after:w-0
-                    after:bg-[#004BE8]
-                    after:transition-all
-                    hover:after:w-full
-                  "
-                >
-                  {link.name}
+            <span className="font-bold text-2xl text-[#004BE8]">
+              SportNest
+            </span>
+          </Link>
+
+          {/* DESKTOP NAV */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/" className={navLinkClass("/")}>Home</Link>
+
+            <Link
+              href="/all-facilities"
+              className={navLinkClass("/all-facilities")}
+            >
+              All Facilities
+            </Link>
+
+            {user && (
+              <>
+                <Link href="/my-bookings" className={navLinkClass("/my-bookings")}>
+                  My Bookings
                 </Link>
-              ))}
-            </div>
 
-            {/* 🔐 AUTH BUTTONS */}
-            <div className="hidden lg:flex items-center gap-3">
+                <Link href="/add-facility" className={navLinkClass("/add-facility")}>
+                  Add Facility
+                </Link>
 
-              <Link
-                href="/login"
-                className="
-                  px-5 py-2.5
-                  text-gray-300
-                  hover:text-white
-                  font-medium
-                  transition
-                "
-              >
+                <Link href="/manage-facilities" className={navLinkClass("/manage-facilities")}>
+                  Manage Facilities
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* RIGHT SIDE */}
+          <div className="hidden md:flex items-center gap-4">
+            {!user && (
+              <Link href="/login">
+                <button className="bg-[#004BE8] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#003ec4] transition">
+                  Login
+                </button>
+              </Link>
+            )}
+
+            {user && (
+              <div className="relative">
+                <button
+                  onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                  className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg cursor-pointer
+                  transition-all duration-200 ease-in-out
+                  hover:bg-gray-50 hover:shadow-sm hover:border-gray-300"
+                >
+                  <Image
+                    src={user?.image || "/avatar.png"}
+                    alt={user.name}
+                    width={30}
+                    height={30}
+                    className="w-7 h-7 rounded-full object-cover"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    {user.name}
+                  </span>
+                </button>
+
+                {profileDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-lg shadow-lg overflow-hidden">
+                    <Link href="/my-bookings" className="block px-4 py-2 text-sm hover:bg-gray-50">
+                      My Bookings
+                    </Link>
+
+                    <Link href="/add-facility" className="block px-4 py-2 text-sm hover:bg-gray-50">
+                      Add Facility
+                    </Link>
+
+                    <Link href="/manage-facilities" className="block px-4 py-2 text-sm hover:bg-gray-50">
+                      Manage Facilities
+                    </Link>
+
+                    <hr />
+
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* MOBILE BUTTON */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-gray-700"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
+
+        {/* MOBILE MENU */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-gray-100 space-y-2">
+
+            {/* 👤 USER INFO (ADDED ONLY FOR MOBILE) */}
+            {user && (
+              <div className="flex items-center gap-3 px-3 py-3 border-b border-gray-100">
+                <Image
+                  src={user?.image || "/avatar.png"}
+                  alt={user.name}
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+                <div>
+                  <p className="text-sm font-medium text-gray-800">
+                    {user.name}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Logged in
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <Link href="/" className={mobileLinkClass("/")}>
+              Home
+            </Link>
+
+            <Link href="/all-facilities" className={mobileLinkClass("/all-facilities")}>
+              All Facilities
+            </Link>
+
+            {user && (
+              <>
+                <Link href="/my-bookings" className={mobileLinkClass("/my-bookings")}>
+                  My Bookings
+                </Link>
+
+                <Link href="/add-facility" className={mobileLinkClass("/add-facility")}>
+                  Add Facility
+                </Link>
+
+                <Link href="/manage-facilities" className={mobileLinkClass("/manage-facilities")}>
+                  Manage Facilities
+                </Link>
+              </>
+            )}
+
+            {!user ? (
+              <Link href="/login" className="block py-2 text-[#004BE8] font-medium">
                 Login
               </Link>
-
-              <Link
-                href="/register"
-                className="
-                  px-5 py-2.5
-                  bg-[#004BE8]
-                  hover:bg-[#003ec4]
-                  text-white
-                  font-medium
-                  rounded-xl
-                  shadow-lg shadow-blue-900/30
-                  transition-all duration-300
-                  active:scale-95
-                "
+            ) : (
+              <button
+                onClick={handleSignOut}
+                className="block py-2 text-red-600 font-medium"
               >
-                Register
-              </Link>
-
-            </div>
-
-            {/* 📱 MOBILE BUTTON */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden text-white p-2"
-            >
-              <svg
-                className="h-7 w-7"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-
+                Logout
+              </button>
+            )}
           </div>
-        </div>
-      </div>
-
-      {/* 📱 MOBILE MENU */}
-      {isOpen && (
-        <div className="
-          lg:hidden
-          bg-[#070B18]/95
-          backdrop-blur-xl
-          border-b border-white/10
-          px-4 pt-4 pb-6
-          space-y-3
-        ">
-
-          {navLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="
-                block
-                text-gray-300
-                hover:text-white
-                px-3 py-2
-                rounded-lg
-                hover:bg-white/5
-                transition
-              "
-            >
-              {link.name}
-            </Link>
-          ))}
-
-          <div className="pt-4 flex flex-col gap-3">
-
-            <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="
-                text-center py-2.5
-                text-gray-300
-                border border-white/10
-                rounded-xl
-                hover:text-white
-                hover:bg-white/5
-              "
-            >
-              Login
-            </Link>
-
-            <Link
-              href="/register"
-              onClick={() => setIsOpen(false)}
-              className="
-                text-center py-2.5
-                bg-[#004BE8]
-                hover:bg-[#003ec4]
-                text-white
-                rounded-xl
-                shadow-lg shadow-blue-900/30
-              "
-            >
-              Register
-            </Link>
-
-          </div>
-        </div>
-      )}
-    </nav>
+        )}
+      </nav>
+    </header>
   );
 }
