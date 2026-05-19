@@ -18,49 +18,56 @@ import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
 const BookingCard = ({ facility }) => {
+  console.log(facility);
 
-    // console.log(facility)
+  const {
+    price = 0,
+    facilityName,
+    imageUrl,
+    location,
+    _id,
+    timeSlots,
+  } = facility;
 
-    const { price = 0, facilityName,imageUrl,location,_id } = facility;
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  //   console.log(user)
 
-     const { data: session } = authClient.useSession();
-      const user = session?.user;
-    //   console.log(user)
+  const [bookingDate, setBookingDate] = useState(null);
 
-     const [bookingDate, setBookingDate] = useState(null);
+  //  const [selectedSlot, setSelectedSlot] = useState("");
+  const [selectedSlot, setSelectedSlot] = useState(new Set());
 
-    //  console.log(new Date(bookingDate))
+  //  console.log(new Date(bookingDate))
 
-    const handleBooking = async () => {
-         const bookingData = {
-        userId: user?.id,
-        userImage: user?.image,
-        userName: user?.name,
-        userEmail:user?.email,
-        facilityId: _id,
-        facilityName,
-        price: totalPrice,
-        imageUrl,
-        location,
-        bookingDate: new Date(bookingDate)
-    }
-    // console.log(bookingData)
+  const handleBooking = async () => {
+    const bookingData = {
+      userId: user?.id,
+      userImage: user?.image,
+      userName: user?.name,
+      userEmail: user?.email,
+      facilityId: _id,
+      facilityName,
+      price: totalPrice,
+      imageUrl,
+      location,
+      timeSlots: Array.from(selectedSlot)[0],
+      bookingDate: new Date(bookingDate),
+      hours
+    };
+    console.log(bookingData)
 
-    const res = await fetch("http://localhost:5000/booking",{
-        method: "POST",
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify(bookingData)
-    })
+    const res = await fetch("http://localhost:5000/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(bookingData),
+    });
     const data = await res.json();
     // console.log(data);
     toast.success("Booking confirmed successfully!");
-
-    }
-
-
-  
+  };
 
   const [hours, setHours] = useState(1);
 
@@ -88,18 +95,13 @@ const BookingCard = ({ facility }) => {
 
   return (
     <div className="bg-[#F8FAFC] px-4 pb-10">
-
       <div className="w-full max-w-7xl mx-auto bg-white/70 backdrop-blur-xl border border-white/50 rounded-[24px] overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.06)] p-6 sm:p-10 animate__animated animate__fadeInUp animate__delay-1s">
-
         <h2 className="text-[#0B2545] font-extrabold text-xl sm:text-2xl tracking-tight mb-6">
           Book This Facility
         </h2>
 
-        <Form
-          className="w-full flex flex-col gap-5">
-
+        <Form className="w-full flex flex-col gap-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
-
             {/* Facility Name */}
             <TextField name="facilityName" isRequired className="w-full">
               <Label className="text-[#0B2545] font-bold text-[12px] mb-1.5 block">
@@ -115,7 +117,12 @@ const BookingCard = ({ facility }) => {
             </TextField>
 
             {/* Date */}
-            <DateField onChange={setBookingDate} name="date" isRequired className="w-full">
+            <DateField
+              onChange={setBookingDate}
+              name="date"
+              isRequired
+              className="w-full"
+            >
               <Label className="text-[#0B2545] font-bold text-[12px] mb-1.5 block">
                 Booking Date
               </Label>
@@ -146,6 +153,8 @@ const BookingCard = ({ facility }) => {
                 placeholder="Select a time slot"
                 className="w-full"
                 selectionMode="single"
+                selectedKeys={selectedSlot}
+                onSelectionChange={setSelectedSlot}
               >
                 <Select.Trigger className="w-full min-h-[44px] px-3.5 border border-slate-200/80 rounded-xl bg-white/80 flex items-center justify-between text-sm text-[#0B2545]">
                   <Select.Value />
@@ -185,12 +194,10 @@ const BookingCard = ({ facility }) => {
 
               <FieldError />
             </TextField>
-
           </div>
 
           {/* PRICE */}
           <div className="w-full bg-[#EEF4FF]/90 border border-[#DBEAFE]/70 rounded-xl p-5 flex justify-between mt-2">
-
             <div>
               <span className="font-bold text-[#0B2545]">Total Price</span>
               <p className="text-sm text-slate-400">
@@ -201,17 +208,14 @@ const BookingCard = ({ facility }) => {
             <div className="text-[#003EC4] font-black text-3xl">
               ${totalPrice}
             </div>
-
           </div>
 
           <Button
-            
             onClick={handleBooking}
             className="w-full h-[48px] bg-[#003EC4] hover:bg-[#0033A6] text-white font-bold rounded-xl"
           >
             Confirm Booking
           </Button>
-
         </Form>
       </div>
     </div>
