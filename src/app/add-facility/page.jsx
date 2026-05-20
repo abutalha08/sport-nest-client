@@ -15,8 +15,14 @@ import { MapPin, Mail, ShieldCheck } from "lucide-react";
 
 import "animate.css";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 const AddFacilityPage = () => {
+
+  const { data: session } = authClient.useSession();
+    const user = session?.user;
+      console.log(user)
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -25,7 +31,7 @@ const AddFacilityPage = () => {
       timeSlots: formData.getAll("timeSlots"),
     };
 
-    console.log(facility);
+    // console.log(facility);
 
     const res = await fetch("http://localhost:5000/facility", {
       method: "POST",
@@ -231,7 +237,7 @@ const AddFacilityPage = () => {
                       <Mail className="absolute left-4 w-4 h-4 text-gray-400 z-10" />
 
                       <Input
-                        value="alex.thompson@sportnest-partners.com"
+                        value={user?.email}
                         className="
                           w-full pl-10
                           bg-slate-50/80
