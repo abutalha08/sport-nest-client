@@ -10,6 +10,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { EditModal } from "@/components/EditModal";
 import { Building2 } from "lucide-react";
+import { FacilityDeleteAlert } from "@/components/FacilityDeleteAlert";
 
 const ManageMyFacilitiesPage = async () => {
   const session = await auth.api.getSession({
@@ -18,7 +19,7 @@ const ManageMyFacilitiesPage = async () => {
 
   const user = session?.user;
 
-  // ⚠️ safety check
+  
   if (!user?.email) {
     return (
       <div className="min-h-screen flex items-center justify-center text-slate-500">
@@ -216,10 +217,8 @@ const ManageMyFacilitiesPage = async () => {
 
                   <EditModal facility={facility} ></EditModal>
 
-                  <Button className="h-[46px] px-6 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold transition-all duration-300">
-                    <FiTrash2 className="text-[16px]" />
-                    Delete
-                  </Button>
+                  <FacilityDeleteAlert facility={facility}>
+                  </FacilityDeleteAlert>
 
                 </div>
 
