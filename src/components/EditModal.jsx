@@ -19,10 +19,9 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export function EditModal({ facility }) {
+  const router = useRouter();
 
-    const router = useRouter();
-
-      const {
+  const {
     _id,
     description,
     timeSlots,
@@ -35,41 +34,39 @@ export function EditModal({ facility }) {
     facilityName,
   } = facility;
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const facility = {
+      ...Object.fromEntries(formData.entries()),
+      timeSlots: formData.getAll("timeSlots"),
+    };
 
-      const onSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const facility = {
-          ...Object.fromEntries(formData.entries()),
-          timeSlots: formData.getAll("timeSlots"),
-        };
-    
-        console.log(facility);
-    
-        const res = await fetch(`http://localhost:5000/facility/${_id}`, {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-    
-          body: JSON.stringify(facility),
-        });
-    
-        const data = await res.json();
-        console.log(data)
+    // console.log(facility);
 
-        console.log(data);
+    const res = await fetch(`http://localhost:5000/facility/${_id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+
+      body: JSON.stringify(facility),
+    });
+
+    const data = await res.json();
+
+    // console.log(data);
+
     
-         if (data.modifiedCount === 1) {
-    toast.success("Facility updated successfully!");
 
-    router.refresh(); // auto UI update
-  } 
-  else {
-    toast.error(data?.message || "Update failed!");
-  }
-      };
+    if (data.modifiedCount === 1) {
+      toast.success("Facility updated successfully!");
 
+      router.refresh();
+    } else {
+      toast.error(data?.message || "Update failed!");
+    }
+  };
 
   return (
     <Modal>
@@ -97,7 +94,7 @@ export function EditModal({ facility }) {
 
             <Modal.Body className="p-6">
               <Surface variant="default">
-                <form onSubmit= {onSubmit} className="space-y-10">
+                <form onSubmit={onSubmit} className="space-y-10">
                   {/* GENERAL INFORMATION */}
                   <div className="space-y-6">
                     <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
@@ -132,18 +129,30 @@ export function EditModal({ facility }) {
                           </Label>
 
                           <Select.Trigger className="w-full min-h-[44px] rounded-xl">
-                            {/* <Select.Value /> */}
+                            <Select.Value />
                             <Select.Indicator />
                           </Select.Trigger>
 
                           <Select.Popover>
                             <ListBox>
-                              <ListBox.Item id="Tennis">Tennis Court</ListBox.Item>
-                              <ListBox.Item id="Football">Football Pitch</ListBox.Item>
-                              <ListBox.Item id="Cricket">Cricket Nets</ListBox.Item>
-                              <ListBox.Item id="Basketball">Basketball Court</ListBox.Item>
-                              <ListBox.Item id="Swimming">Swimming Pool</ListBox.Item>
-                              <ListBox.Item id="Badminton">Badminton Court</ListBox.Item>
+                              <ListBox.Item id="Tennis">
+                                Tennis Court
+                              </ListBox.Item>
+                              <ListBox.Item id="Football">
+                                Football Pitch
+                              </ListBox.Item>
+                              <ListBox.Item id="Cricket">
+                                Cricket Nets
+                              </ListBox.Item>
+                              <ListBox.Item id="Basketball">
+                                Basketball Court
+                              </ListBox.Item>
+                              <ListBox.Item id="Swimming">
+                                Swimming Pool
+                              </ListBox.Item>
+                              <ListBox.Item id="Badminton">
+                                Badminton Court
+                              </ListBox.Item>
                             </ListBox>
                           </Select.Popover>
                         </Select>
@@ -188,7 +197,10 @@ export function EditModal({ facility }) {
                         Image Content URL
                       </Label>
 
-                      <Input type="url" placeholder="https://example.com/image.jpg" />
+                      <Input
+                        type="url"
+                        placeholder="https://example.com/image.jpg"
+                      />
                       <FieldError />
                     </TextField>
                   </div>
@@ -258,7 +270,7 @@ export function EditModal({ facility }) {
                       {/* TIME SLOTS (FIXED POSITION) */}
                       <div className="md:col-span-2">
                         <Select
-                        //   selectedKeys={new Set(timeSlots || [])}
+                            // selectedKeys={new Set(timeSlots || [])}
                           name="timeSlots"
                           isRequired
                           selectionMode="multiple"
@@ -275,13 +287,27 @@ export function EditModal({ facility }) {
 
                           <Select.Popover>
                             <ListBox>
-                              <ListBox.Item id="06:00-08:00">06:00 - 08:00</ListBox.Item>
-                              <ListBox.Item id="08:00-10:00">08:00 - 10:00</ListBox.Item>
-                              <ListBox.Item id="10:00-12:00">10:00 - 12:00</ListBox.Item>
-                              <ListBox.Item id="14:00-16:00">02:00 - 04:00</ListBox.Item>
-                              <ListBox.Item id="16:00-18:00">04:00 - 06:00</ListBox.Item>
-                              <ListBox.Item id="18:00-20:00">06:00 - 08:00</ListBox.Item>
-                              <ListBox.Item id="20:00-22:00">08:00 - 10:00</ListBox.Item>
+                              <ListBox.Item id="06:00-08:00">
+                                06:00 - 08:00
+                              </ListBox.Item>
+                              <ListBox.Item id="08:00-10:00">
+                                08:00 - 10:00
+                              </ListBox.Item>
+                              <ListBox.Item id="10:00-12:00">
+                                10:00 - 12:00
+                              </ListBox.Item>
+                              <ListBox.Item id="14:00-16:00">
+                                02:00 - 04:00
+                              </ListBox.Item>
+                              <ListBox.Item id="16:00-18:00">
+                                04:00 - 06:00
+                              </ListBox.Item>
+                              <ListBox.Item id="18:00-20:00">
+                                06:00 - 08:00
+                              </ListBox.Item>
+                              <ListBox.Item id="20:00-22:00">
+                                08:00 - 10:00
+                              </ListBox.Item>
                             </ListBox>
                           </Select.Popover>
                         </Select>
@@ -313,20 +339,18 @@ export function EditModal({ facility }) {
 
                   {/* FOOTER */}
                   <div className="flex items-center justify-end gap-6 pt-6 border-t border-gray-100">
-                    
                     <Modal.Footer>
-              <Button slot="close" variant="secondary">
-                Cancel
-              </Button>
-              <Button type="submit" slot="close">Save Changes</Button>
-            </Modal.Footer>
-
+                      <Button slot="close" variant="secondary">
+                        Cancel
+                      </Button>
+                      <Button type="submit" slot="close">
+                        Save Changes
+                      </Button>
+                    </Modal.Footer>
                   </div>
                 </form>
               </Surface>
             </Modal.Body>
-
-
           </Modal.Dialog>
         </Modal.Container>
       </Modal.Backdrop>

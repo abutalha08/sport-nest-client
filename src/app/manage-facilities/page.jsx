@@ -80,7 +80,7 @@ const ManageMyFacilitiesPage = async () => {
         mb-6
       "
     >
-      <Building2 className="w-10 h-10 text-[#004BE8]" />
+      <Building2 and  className="w-10 h-10 text-[#004BE8]" />
     </div>
 
     {/* TITLE */}
