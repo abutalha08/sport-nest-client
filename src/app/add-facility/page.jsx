@@ -16,12 +16,15 @@ import { MapPin, Mail, ShieldCheck } from "lucide-react";
 import "animate.css";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const AddFacilityPage = () => {
 
+  const router = useRouter();
+
   const { data: session } = authClient.useSession();
     const user = session?.user;
-      console.log(user)
+      // console.log(user)
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -33,26 +36,32 @@ const AddFacilityPage = () => {
 
     // console.log(facility);
 
+    const {data:tokenData} = await authClient.token()
+                console.log(tokenData)
+
     const res = await fetch("http://localhost:5000/facility", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`
       },
 
       body: JSON.stringify(facility),
     });
 
     const data = await res.json();
+    console.log(data);
+
 
      if (res.ok) {
     toast.success("Facility created successfully!");
+    router.push("/manage-facilities");
   } else {
     toast.error(data?.message || "Something went wrong.");
   }
 
     
 
-    // console.log(data);
   };
 
   return (

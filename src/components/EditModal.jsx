@@ -17,6 +17,7 @@ import { Mail, MapPin } from "lucide-react";
 import { FiEdit2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 export function EditModal({ facility }) {
   const router = useRouter();
@@ -44,10 +45,15 @@ export function EditModal({ facility }) {
 
     // console.log(facility);
 
+     const {data:tokenData} = await authClient.token()
+            console.log(tokenData)
+    
+
     const res = await fetch(`http://localhost:5000/facility/${_id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`
       },
 
       body: JSON.stringify(facility),
@@ -55,7 +61,7 @@ export function EditModal({ facility }) {
 
     const data = await res.json();
 
-    // console.log(data);
+    console.log(data);
 
     
 

@@ -4,12 +4,21 @@ import Image from "next/image";
 import "animate.css";
 import BookingCard from "@/components/BookingCard";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const FacilityDetailsPage = async ({ params }) => {
   const { id } = await params;
 
+  const {token} = await auth.api.getToken({
+    headers: await headers()
+  })
+  // console.log(token)
+
   const res = await fetch(`http://localhost:5000/facility/${id}`, {
-    cache: "no-store",
+    headers: {
+      authorization: `Bearer ${token}`
+    }
   });
 
   if (!res.ok) {

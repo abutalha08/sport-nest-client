@@ -18,7 +18,7 @@ import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 
 const BookingCard = ({ facility }) => {
-  console.log(facility);
+  // console.log(facility);
 
   const {
     price = 0,
@@ -56,10 +56,14 @@ const BookingCard = ({ facility }) => {
     };
     // console.log(bookingData)
 
+    const {data:tokenData} = await authClient.token()
+    // console.log(tokenData)
+
     const res = await fetch("http://localhost:5000/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${tokenData?.token}`
       },
       body: JSON.stringify(bookingData),
     });
@@ -82,7 +86,7 @@ const BookingCard = ({ facility }) => {
 
   const totalPrice = price * hours;
 
-  console.log(selectedSlot)
+  // console.log(selectedSlot)
 
   const availableSlots = [
     "06:00 AM - 08:00 AM",

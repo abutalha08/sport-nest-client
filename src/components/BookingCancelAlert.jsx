@@ -1,7 +1,9 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { MdCancel } from "react-icons/md";
 
 export function BookingCancelAlert({ facilityName, bookingId }) {
@@ -12,12 +14,14 @@ export function BookingCancelAlert({ facilityName, bookingId }) {
 
      const handleCancelBooking = async() =>{
 
-      
+      const {data:tokenData} = await authClient.token()
+              // console.log(tokenData)
 
         const res = await fetch(`http://localhost:5000/booking/${bookingId}`, {
             method: "DELETE",
             headers: {
                 "content-type": "application/json",
+                authorization: `Bearer ${tokenData?.token}`
                 
             }
         })
@@ -26,8 +30,12 @@ export function BookingCancelAlert({ facilityName, bookingId }) {
 
         // console.log(data)
 
-        if (data.deletedCount > 0) {
+         if (data.deletedCount > 0) {
+    toast.success("Booking cancelled successfully!");
     router.refresh();
+  } 
+  else {
+    toast.error("Failed to cancel booking!");
   }
 
         
