@@ -35,8 +35,7 @@ const BookingCard = ({ facility }) => {
 
   const [bookingDate, setBookingDate] = useState(null);
 
-  //  const [selectedSlot, setSelectedSlot] = useState("");
-  const [selectedSlot, setSelectedSlot] = useState(new Set());
+  const [selectedSlot, setSelectedSlot] = useState("");
 
   //  console.log(new Date(bookingDate))
 
@@ -51,11 +50,11 @@ const BookingCard = ({ facility }) => {
       price: totalPrice,
       imageUrl,
       location,
-      timeSlots: Array.from(selectedSlot)[0],
+      timeSlots:selectedSlot,
       bookingDate: new Date(bookingDate),
       hours
     };
-    console.log(bookingData)
+    // console.log(bookingData)
 
     const res = await fetch("http://localhost:5000/booking", {
       method: "POST",
@@ -82,6 +81,8 @@ const BookingCard = ({ facility }) => {
   };
 
   const totalPrice = price * hours;
+
+  console.log(selectedSlot)
 
   const availableSlots = [
     "06:00 AM - 08:00 AM",

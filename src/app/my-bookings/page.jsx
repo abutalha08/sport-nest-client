@@ -8,9 +8,10 @@ import { Button, Card } from "@heroui/react";
 import { BiSolidCalendar } from "react-icons/bi";
 import { FiDollarSign } from "react-icons/fi";
 import { IoLocationOutline, IoTimeOutline } from "react-icons/io5";
-import { MdCancel } from "react-icons/md";
+
 
 import "animate.css";
+import { BookingCancelAlert } from "@/components/BookingCancelAlert";
 
 const MyBookingPage = async () => {
   const session = await auth.api.getSession({
@@ -83,13 +84,7 @@ const MyBookingPage = async () => {
                       </h2>
                     </div>
 
-                    <Button
-                      variant="light"
-                      className="text-rose-600 hover:text-rose-700 text-sm flex items-center gap-1"
-                    >
-                      <MdCancel className="text-[18px]" />
-                      Cancel Booking
-                    </Button>
+                    <BookingCancelAlert facilityName={facilityName} bookingId={_id}></BookingCancelAlert>
                   </div>
 
                   {/* INFO GRID */}
@@ -114,9 +109,9 @@ const MyBookingPage = async () => {
                     <div className="flex gap-3">
                       <IoTimeOutline className="text-[#003EC4] text-[18px] mt-1" />
                       <div>
-                        <p className="text-slate-400 text-xs">Number of hours</p>
+                        <p className="text-slate-400 text-xs">Time Slot</p>
                         <p className="text-[#0B2545] font-bold text-sm">
-                          {hours}
+                          {timeSlots}
                         </p>
                       </div>
                     </div>
