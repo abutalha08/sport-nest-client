@@ -43,6 +43,8 @@ const RegisterPage = () => {
 
     // console.log({data, error});
 
+    await authClient.signOut()
+
     if (error) {
   toast.error(error.message || "Registration failed!");
   return;
