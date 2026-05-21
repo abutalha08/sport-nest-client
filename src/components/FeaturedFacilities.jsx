@@ -14,6 +14,15 @@ const FeaturedFacilities = async () => {
   return (
     <section className="w-full bg-[#FAFCFF] py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-10">
+    <h2 className="text-[#0B2545] text-3xl sm:text-4xl font-extrabold tracking-tight">
+      Featured Facilities
+    </h2>
+
+    <p className="text-[#64748B] text-base sm:text-lg mt-2">
+  Browse our most popular sports venues and book your slot today
+</p>
+  </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center">
           {facilities?.map((facility, index) => (
             <div

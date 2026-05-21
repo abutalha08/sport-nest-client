@@ -66,7 +66,7 @@ export default function Banner() {
 
             {/* SECONDARY GLASS BUTTON */}
             <Link
-              href="/#how-it-works"
+              href="/login"
               className="
                 px-8 py-3
                 bg-white/10 hover:bg-white/20
