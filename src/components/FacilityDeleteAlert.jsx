@@ -16,7 +16,7 @@ export function FacilityDeleteAlert({ facility }) {
         // console.log(tokenData)
 
     const res = await fetch(
-      `http://localhost:5000/facility/${facility._id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${facility._id}`,
       {
         method: "DELETE",
         headers: {
