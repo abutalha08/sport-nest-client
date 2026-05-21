@@ -18,6 +18,7 @@ export default function Navbar() {
   const handleSignOut = async () => {
     await authClient.signOut();
     setProfileDropdownOpen(false);
+    window.location.reload();
   };
 
   const navLinkClass = (path) =>

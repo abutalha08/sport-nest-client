@@ -47,7 +47,7 @@ export function EditModal({ facility }) {
 
      const {data:tokenData} = await authClient.token()
             console.log(tokenData)
-    
+   
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${_id}`, {
       method: "PATCH",
@@ -63,7 +63,7 @@ export function EditModal({ facility }) {
 
     console.log(data);
 
-    
+   
 
     if (data.modifiedCount === 1) {
       toast.success("Facility updated successfully!");
@@ -278,7 +278,7 @@ export function EditModal({ facility }) {
                         <Select
                             // selectedKeys={new Set(timeSlots || [])}
                           name="timeSlots"
-                          isRequired
+                          // isRequired
                           selectionMode="multiple"
                           placeholder="Select available slot"
                         >
@@ -349,7 +349,7 @@ export function EditModal({ facility }) {
                       <Button slot="close" variant="secondary">
                         Cancel
                       </Button>
-                      <Button type="submit" slot="close">
+                      <Button type="submit" >
                         Save Changes
                       </Button>
                     </Modal.Footer>
@@ -363,3 +363,4 @@ export function EditModal({ facility }) {
     </Modal>
   );
 }
+
