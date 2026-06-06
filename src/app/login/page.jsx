@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   Separator,
@@ -24,6 +24,10 @@ import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
+
+  useEffect(() => {
+  document.title = "Login | SportNest";
+}, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
