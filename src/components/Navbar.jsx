@@ -96,7 +96,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-4">
             {!user && (
               <Link href="/login">
-                <button className="bg-[#004BE8] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#003ec4] transition">
+                <button className="bg-[#004BE8] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#003ec4] cursor-pointer transition">
                   Login
                 </button>
               </Link>
@@ -140,7 +140,7 @@ export default function Navbar() {
 
                     <button
                       onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2"
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-2 cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       Logout
@@ -216,7 +216,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={handleSignOut}
-                className="block py-2 text-red-600 font-medium"
+                className="block py-2 text-red-600 font-medium cursor-pointer"
               >
                 Logout
               </button>
