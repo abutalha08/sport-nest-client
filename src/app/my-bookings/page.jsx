@@ -13,6 +13,12 @@ import { IoLocationOutline, IoTimeOutline } from "react-icons/io5";
 import "animate.css";
 import { BookingCancelAlert } from "@/components/BookingCancelAlert";
 
+export const metadata = {
+  title: "My Bookings | SportNest",
+  description:
+    "View and manage all your sports facility bookings on SportNest.",
+};
+
 const MyBookingPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
