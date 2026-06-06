@@ -7,6 +7,36 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/facility/${id}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    return {
+      title: "Facility Details | SportNest",
+    };
+  }
+
+  const facility = await res.json();
+
+  return {
+    title: `${facility.facilityName} | SportNest`,
+    description: facility.description,
+  };
+}
+
 const FacilityDetailsPage = async ({ params }) => {
   const { id } = await params;
 

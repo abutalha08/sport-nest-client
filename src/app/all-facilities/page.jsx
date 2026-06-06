@@ -10,6 +10,10 @@ const AllFacilitiesPage = () => {
   const [facilityType, setFacilityType] = useState("");
 
   useEffect(() => {
+    document.title = "Explore Sports Facilities | SportNest";
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/facility?search=${search}&facilityType=${facilityType}`

@@ -6,6 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,10 +17,20 @@ export default function Navbar() {
   const user = session?.user;
 
   const handleSignOut = async () => {
+  try {
     await authClient.signOut();
+
+    toast.success("Logged out successfully!");
+
     setProfileDropdownOpen(false);
-    window.location.reload();
-  };
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  } catch (error) {
+    toast.error("Failed to log out. Please try again.");
+  }
+};
 
   const navLinkClass = (path) =>
     `text-sm font-medium transition px-1 py-1 border-b-2 ${
