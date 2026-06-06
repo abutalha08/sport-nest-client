@@ -12,6 +12,12 @@ import { EditModal } from "@/components/EditModal";
 import { Building2 } from "lucide-react";
 import { FacilityDeleteAlert } from "@/components/FacilityDeleteAlert";
 
+export const metadata = {
+  title: "Manage My Facilities | SportNest",
+  description:
+    "Manage, update, and monitor your registered sports facilities on SportNest.",
+};
+
 const ManageMyFacilitiesPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
