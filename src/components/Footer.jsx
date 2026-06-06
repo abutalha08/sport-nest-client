@@ -93,7 +93,7 @@ export default function Footer() {
             <div className="flex gap-3">
 
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/share/1CtWcnfVV5/"
                 target="_blank"
                 className="
                   w-10 h-10
@@ -109,7 +109,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/taufique_08"
                 target="_blank"
                 className="
                   w-10 h-10
@@ -125,7 +125,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/md-abu-talha-taufique"
                 target="_blank"
                 className="
                   w-10 h-10
