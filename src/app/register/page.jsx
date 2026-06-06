@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { ArrowRight, ArrowLeft, ShieldCheck } from "lucide-react";
 
@@ -25,6 +25,10 @@ import Link from "next/link";
 const RegisterPage = () => {
 
   const router = useRouter();
+
+   useEffect(() => {
+    document.title = "Register | SportNest";
+  }, []);
 
     const onSubmit = async (e) => {
     e.preventDefault();
