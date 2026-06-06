@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   FieldError,
@@ -25,6 +25,11 @@ const AddFacilityPage = () => {
   const { data: session } = authClient.useSession();
     const user = session?.user;
       // console.log(user)
+
+
+  useEffect(() => {
+    document.title = "Add Facility | SportNest";
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
