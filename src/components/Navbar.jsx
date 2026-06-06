@@ -33,14 +33,14 @@ export default function Navbar() {
 };
 
   const navLinkClass = (path) =>
-    `text-sm font-medium transition px-1 py-1 border-b-2 ${
+    `text-sm font-bold transition px-1 py-1 border-b-2 ${
       pathname === path
         ? "text-[#004BE8] border-[#004BE8]"
         : "text-gray-600 border-transparent hover:text-[#004BE8] hover:border-[#004BE8]"
     }`;
 
   const mobileLinkClass = (path) =>
-    `block py-2 text-sm font-medium transition ${
+    `block py-2 text-sm font-bold transition ${
       pathname === path
         ? "text-[#004BE8]"
         : "text-gray-700 hover:text-[#004BE8]"
